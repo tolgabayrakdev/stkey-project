@@ -12,6 +12,7 @@ def login():
     password = data["password"]
     try:
         result = AuthService.login(email=email, password=password)
+        print(result)
         if result:
             response = jsonify(
                 {
@@ -19,8 +20,8 @@ def login():
                     "refresh_token": result["refresh_token"],
                 }
             )
-        response.set_cookie("access_token", result["access_token"], httponly=True)
-        response.set_cookie("refresh_token", result["refresh_token"], httponly=True)
-        return response, 200
+            response.set_cookie("access_token", result["access_token"], httponly=True)
+            response.set_cookie("refresh_token", result["refresh_token"], httponly=True)
+            return response, 200
     except:
-        return jsonify({"message": "Internal server error"}), 500
+        raise result
