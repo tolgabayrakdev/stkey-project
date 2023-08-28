@@ -1,20 +1,17 @@
-from util.helper import Helper
 from sqlalchemy import text
-from database import DatabaseHelper
+from werkzeug.exceptions import HTTPException
+from util.helper import Helper
 import os
-
-db = DatabaseHelper(os.getenv("DB_URL"))
+from database import connection
 
 
 class AuthService:
     @staticmethod
     def login(email: str, password: str):
-        query = f"""
-            SELECT * FROM users
-            WHERE email = {email};
-            """
-        row = db.execute_query(text(query))
-        if row:
-            return row
-        else:
-            False
+        hashed_password = Helper.generate_hash_password(password)
+        cur = connection.cursor()
+        cur.execute("SELECT * FROM users WHERE email = %s and password = %s", (email, hashed_password))
+        data = cur.fetchall()
+        print("-------")
+        print(data)
+        return data

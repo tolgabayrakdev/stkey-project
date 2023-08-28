@@ -7,7 +7,7 @@ import jwt
 class Helper:
     @staticmethod
     def generate_hash_password(password: str):
-        salt = uuid.uuid4().hex
+        salt = "Deneme123"
         return (
             hashlib.sha256(salt.encode() + password.encode()).hexdigest() + ":" + salt
         )
