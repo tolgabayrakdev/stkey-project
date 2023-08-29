@@ -1,5 +1,6 @@
 ### Projects Services
 - Auth service = {
-    login
-    register
+    login [x]
+    register [x]
+    change_password []
 }

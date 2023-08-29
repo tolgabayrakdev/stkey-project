@@ -29,15 +29,15 @@ class AuthService:
             return error
 
     @staticmethod
-    def register(username: str, email: str, password: str):
+    def register(data: dict):
         try:
-            hash_password = Helper.generate_hash_password(password=password)
+            hash_password = Helper.generate_hash_password(password=data["password"])
             cur.execute(
                 """
                 INSERT INTO users(username, email, password, created_at, updated_at)
                 VALUES(%s, %s, %s, now(), now())
                 """,
-                (username, email, hash_password),
+                (data["username"], data["email"], hash_password),
             )
             connection.commit()
         except psycopg2.DatabaseError as error:

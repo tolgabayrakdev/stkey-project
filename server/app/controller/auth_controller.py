@@ -36,7 +36,7 @@ def register():
         password = data["password"]
         if not all([username, email, password]):
             return jsonify({"message": "Parameters is not correct"}), 400
-        AuthService.register(username=username, email=email, password=password)
+        AuthService.register(data)
         return jsonify({"message": "Account created successfull"}), 201
     except:
         return jsonify({"message": "Internal Server Error"}), 500
