@@ -25,7 +25,8 @@ def login():
             return response, 200
     except:
         raise result
-    
+
+
 @auth_controller.route("/register")
 def register():
     data = request.get_json()
@@ -35,12 +36,15 @@ def register():
     try:
         if not all([username, email, password]):
             return jsonify({"message": "Parameters is not correct"}), 400
-        AuthService.register(
-            username=username,
-            email=email,
-            password=password
-        )
+        AuthService.register(username=username, email=email, password=password)
         return jsonify({"message": "Account created successfull"}), 201
     except:
         return jsonify({"message": "Internal Server Error"}), 500
-    
+
+
+@auth_controller.route("/logout", methods=["POST"])
+def logout():
+    response = jsonify({"message": "You are logout successful"})
+    response.delete_cookie("access_token")
+    response.delete_cookie("refresh_token")
+    return response, 200
