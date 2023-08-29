@@ -2,4 +2,5 @@
 - Auth service = {
     login [x]
     register [x]
+    change_password []
 }
