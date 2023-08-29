@@ -43,3 +43,4 @@ class AuthService:
         except psycopg2.DatabaseError as error:
             connection.rollback()
             return error
+        

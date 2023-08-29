@@ -27,13 +27,13 @@ def login():
         raise result
 
 
-@auth_controller.route("/register")
+@auth_controller.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
-    username = data["username"]
-    email = data["email"]
-    password = data["password"]
     try:
+        username = data["username"]
+        email = data["email"]
+        password = data["password"]
         if not all([username, email, password]):
             return jsonify({"message": "Parameters is not correct"}), 400
         AuthService.register(username=username, email=email, password=password)
