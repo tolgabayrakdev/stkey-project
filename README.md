@@ -4,5 +4,8 @@
 ### Backend(Flask-PostgreSQL)
 #### Features
 * Services: [
-    - Auth Services = {Login, Register, Change Password}
+    - Auth Service = {Login, Register, Change password}
+]
+* Controller: [
+    - Auth Contoller = {Login, Register, Change password, Log out}
 ]
