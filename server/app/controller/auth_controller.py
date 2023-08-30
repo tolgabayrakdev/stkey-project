@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, request
 from service.auth_service import AuthService
 from schema.user_schema import UserSchema
+import jwt
+import os
 
 auth_controller = Blueprint("auth_controller", __name__)
 
@@ -48,3 +50,22 @@ def logout():
     response.delete_cookie("access_token")
     response.delete_cookie("refresh_token")
     return response, 200
+
+
+@auth_controller.route("/change-password", methods=["POST"])
+def change_password():
+    data = request.get_json()
+    current_password = data["current_password"]
+    new_password = data["new_password"]
+    auth_header = request.cookies.get("access_token")
+    if auth_header:
+        decode_token = jwt.decode(auth_header, "secret",algorithms=["HS256"])
+        email = decode_token["payload"]["email"]
+        result = AuthService.change_password(
+            email=email, current_password=current_password, new_password=new_password
+        )
+        print(result)
+        if result:
+            return jsonify({"message": "Password changed successful"}), 200
+        else:
+            return jsonify({"message": "Invalid email or password"}), 400

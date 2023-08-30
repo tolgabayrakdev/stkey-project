@@ -43,4 +43,19 @@ class AuthService:
         except psycopg2.DatabaseError as error:
             connection.rollback()
             return error
-        
+
+    @staticmethod
+    def change_password(email: str, current_password: str, new_password: str):
+        cur.execute(
+            """
+            SELECT * FROM users WHERE email = %s
+            """,
+            [email]
+        )
+        user = cur.fetchall()
+        if user is None:
+            return False
+        hash_password = Helper.generate_hash_password(password=new_password)
+        print(user[0][1])
+        user.password = hash_password
+        return True
